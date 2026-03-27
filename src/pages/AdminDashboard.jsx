@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 
 function AdminDashboard() {
+  const [report, setReport] = useState([]);
   const [rules, setRules] = useState([]);
   const [form, setForm] = useState({
     name: "",
@@ -16,8 +17,18 @@ function AdminDashboard() {
     setRules(res.data);
   };
 
+  const fetchReport = async () => {
+  try {
+    const res = await API.get("/api/discount-rules/usage-report");
+    setReport(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
   useEffect(() => {
     fetchRules();
+    fetchReport();
   }, []);
 
   const handleChange = (e) => {
@@ -78,6 +89,27 @@ function AdminDashboard() {
           </button>
         </div>
       ))}
+
+      <hr />
+
+      <h3>Discount Usage Report</h3>
+
+      {report.length === 0 ? (
+        <p>No usage yet</p>
+      ) : (
+        report.map((item) => (
+          <div
+            key={item._id}
+            style={{ border: "1px solid", margin: "10px", padding: "10px" }}
+          >
+            <p><b>User:</b> {item.userId?.email}</p>
+            <p><b>Role:</b> {item.userId?.role}</p>
+            <p><b>Rule:</b> {item.ruleId?.name}</p>
+            <p><b>Discount %:</b> {item.ruleId?.discountPercent}</p>
+            <p><b>Used Count:</b> {item.usedCount}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }

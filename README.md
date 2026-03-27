@@ -43,4 +43,4 @@ It is built using React and allows users (ADMIN and CUSTOMER) to interact with t
 
 Frontend communicates with backend using Axios.
 
-Base URL:
+Base URL: http://localhost:5000

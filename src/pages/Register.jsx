@@ -1,7 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+import { Link } from "react-router-dom";
+import API from "../services/api";
 
 function Register() {
   const [form, setForm] = useState({
@@ -11,9 +10,11 @@ function Register() {
     role: "CUSTOMER"
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrorMessage("");
   };
 
   const handleSubmit = async (e) => {
@@ -21,13 +22,8 @@ function Register() {
     setIsSubmitting(true);
 
     try {
-      const endpoint = `${API_BASE_URL}/api/auth/register`;
-      const res = await axios.post(
-        endpoint,
-        form
-      );
+      const res = await API.post("/api/auth/register", form);
 
-      alert("Registered successfully!");
       console.log(res.data);
       setForm({
         name: "",
@@ -35,6 +31,7 @@ function Register() {
         password: "",
         role: "CUSTOMER"
       });
+      setErrorMessage("");
 
     } catch (err) {
       console.log(err);
@@ -43,48 +40,70 @@ function Register() {
         err.response?.data?.error ||
         err.message ||
         "Registration failed";
-      alert(errorMessage);
+      setErrorMessage(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Register</h2>
+    <div className="auth-page">
+      <h1>Rule-Based Discount Engine</h1>
+      <p>Manage and apply discounts intelligently.</p>
+      <div className="auth-shell">
+        <section className="auth-card">
+          <p className="eyebrow">Create account</p>
+          <h2>Create your account</h2>
+          <p className="form-help">Fill in your details to get started.</p>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-        /><br /><br />
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <input
+              name="name"
+              placeholder="Full name"
+              value={form.name}
+              onChange={handleChange}
+              autoComplete="name"
+              required
+            />
 
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-        /><br /><br />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email address"
+              value={form.email}
+              onChange={handleChange}
+              autoComplete="email"
+              required
+            />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-        /><br /><br />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              autoComplete="new-password"
+              required
+            />
 
-        <select name="role" value={form.role} onChange={handleChange}>
-          <option value="CUSTOMER">Customer</option>
-          <option value="ADMIN">Admin</option>
-        </select><br /><br />
+            <select name="role" value={form.role} onChange={handleChange}>
+              <option value="CUSTOMER">Customer</option>
+              <option value="ADMIN">Admin</option>
+            </select>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Registering..." : "Register"}
-        </button>
-      </form>
+            {errorMessage ? <div className="empty-state">{errorMessage}</div> : null}
+
+            <button className="primary-button" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <div className="switch-row">
+            <span>Already have an account?</span>
+            <Link to="/login">Login here</Link>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

@@ -23,7 +23,7 @@ function Login() {
     setErrorMessage("");
 
     try {
-      const res = await API.post("/api/auth/login", form);
+      const res = await API.post("https://discount-backend-1.onrender.com/api/auth/login", form);
 
       const user = res.data.user;
 

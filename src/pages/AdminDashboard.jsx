@@ -23,7 +23,7 @@ function AdminDashboard() {
 
   const fetchReport = async () => {
   try {
-    const res = await API.get("/api/discount-rules/usage-report");
+    const res = await API.get("https://discount-backend-1.onrender.com/api/discount-rules/usage-report");
     setReport(res.data);
   } catch (err) {
     console.log(err);
@@ -41,7 +41,7 @@ function AdminDashboard() {
 
   const createRule = async () => {
     try {
-      await API.post("/api/discount-rules", form);
+      await API.post("https://discount-backend-1.onrender.com/api/discount-rules", form);
       alert("Rule created");
       fetchRules();
     } catch (err) {
@@ -51,7 +51,7 @@ function AdminDashboard() {
 
   const toggleRule = async (id) => {
     try {
-      await API.patch(`/api/discount-rules/${id}/toggle`);
+      await API.patch(`https://discount-backend-1.onrender.com/api/discount-rules/${id}/toggle`);
       fetchRules();
     } catch (err) {
       alert("Error toggling rule");

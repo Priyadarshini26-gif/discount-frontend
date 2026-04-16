@@ -22,7 +22,7 @@ function Register() {
     setIsSubmitting(true);
 
     try {
-      const res = await API.post("/api/auth/register", form);
+      const res = await API.post("https://discount-backend-1.onrender.com/api/auth/register", form);
 
       console.log(res.data);
       setForm({

@@ -1,37 +1,46 @@
-# Frontend - Discount Eligibility System
+# Rule-Based Discount Eligibility Management System (Frontend)
 
 ## Overview
-This is the frontend of the Rule-Based Discount Eligibility Management System.
+This project is the frontend application for a Rule-Based Discount Eligibility Management System.
 
-It is built using React and allows users (ADMIN and CUSTOMER) to interact with the backend APIs to manage and apply discount rules.
+It is built using React and Vite, and provides separate user interfaces for ADMIN and CUSTOMER users.
+
+The frontend supports:
+- User registration and login
+- Role-based navigation (ADMIN and CUSTOMER dashboards)
+- Discount rule creation and management for admins
+- Discount eligibility checks for customers
+- Discount application flow
+- Admin usage report viewing
 
 ---
 
 ## Tech Stack
-- React (Vite)
-- Axios (API calls)
-- React Router DOM (Routing)
-- CSS (Basic styling)
+- React.js
+- Vite
+- React Router DOM
+- Axios
+- CSS
 
 ---
 
-## Features
-
-### Authentication
-- User Registration
-- User Login
-- Role-based navigation (Admin / Customer)
+## Frontend URL
+http://localhost:5173
 
 ---
 
-### Customer Features
-- View available discount rules
-- Check eligibility for discounts
-- Apply eligible discounts
+## User Roles and Permissions
 
----
+### CUSTOMER
+- Register
+- Login
+- View discount rules
+- Check discount eligibility
+- Apply discount
 
-### Admin Features
+### ADMIN
+- Register
+- Login
 - Create discount rules
 - Toggle rule active/inactive
 - View all rules
@@ -39,8 +48,19 @@ It is built using React and allows users (ADMIN and CUSTOMER) to interact with t
 
 ---
 
-## API Integration
+## Frontend Routes
 
-Frontend communicates with backend using Axios.
+### Public Routes
+- /register
+- /login
 
-Base URL: http://localhost:5000
+### Dashboard Routes
+- /customer
+- /admin
+
+---
+
+## Notes
+- Role-based redirection is handled after login:
+  - ADMIN -> /admin
+  - CUSTOMER -> /customer

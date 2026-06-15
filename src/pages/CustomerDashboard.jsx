@@ -8,7 +8,7 @@ function CustomerDashboard() {
   useEffect(() => {
     const fetchRules = async () => {
       try {
-        const res = await API.get("https://discount-backend-1.onrender.com/api/discount-rules");
+        const res = await API.get("/api/discount-rules");
         setRules(res.data);
       } catch (err) {
         console.log(err);
@@ -81,7 +81,7 @@ function CustomerDashboard() {
                     onClick={async () => {
                       try {
                         const orderValue = Number(orderValues[rule._id]);
-                        const res = await API.post("https://discount-backend-1.onrender.com/api/discount-rules/check-eligibility", {
+                        const res = await API.post("/api/discount-rules/check-eligibility", {
                           ruleId: rule._id,
                           orderValue,
                         });
@@ -101,7 +101,7 @@ function CustomerDashboard() {
                     onClick={async () => {
                       try {
                         const orderValue = Number(orderValues[rule._id]);
-                        const res = await API.post("https://discount-backend-1.onrender.com/api/discount-rules/apply", {
+                        const res = await API.post("/api/discount-rules/apply", {
                           ruleId: rule._id,
                           orderValue,
                         });
